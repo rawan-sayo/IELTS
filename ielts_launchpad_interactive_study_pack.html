@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IELTS Launchpad - Interactive Study Pack</title>
+<style>
+:root{
+  --ink:#162033;
+  --muted:#61708b;
+  --paper:#fbfaf7;
+  --panel:#ffffff;
+  --line:#e7e3dc;
+  --nav:#101828;
+  --blue:#3657ff;
+  --cyan:#00bdd6;
+  --mint:#4dd28a;
+  --coral:#ff7a59;
+  --amber:#ffbd2e;
+  --violet:#8057ff;
+  --soft-blue:#eef2ff;
+  --soft-mint:#ecfdf3;
+  --soft-coral:#fff1ec;
+  --soft-amber:#fff8e8;
+  --shadow:0 18px 45px rgba(18, 28, 45, .12);
+  --radius:24px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 10% 10%, rgba(0,189,214,.12), transparent 30%),
+    radial-gradient(circle at 88% 12%, rgba(255,122,89,.16), transparent 32%),
+    linear-gradient(135deg,#f8fbff 0%,#fbfaf7 52%,#fff7f1 100%);
+}
+button,input,textarea,select{font:inherit}
+a{color:var(--blue)}
+.app{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:100vh}
+.sidebar{
+  position:sticky;top:0;height:100vh;overflow:auto;
+  background:linear-gradient(180deg,#101828 0%,#1d2450 100%);
+  color:white;padding:24px 18px;border-right:1px solid rgba(255,255,255,.08)
+}
+.brand{display:flex;gap:14px;align-items:center;margin-bottom:22px}
+.logo{
+  width:52px;height:52px;border-radius:18px;
+  background:linear-gradient(135deg,var(--mint),var(--cyan) 50%,var(--blue));
+  box-shadow:0 16px 30px rgba(0,0,0,.24);
+  position:relative;overflow:hidden;
+}
+.logo:before,.logo:after{content:"";position:absolute;background:white;border-radius:3px;opacity:.9}.logo:before{width:28px;height:6px;left:11px;top:16px;transform:rotate(-24deg)}.logo:after{width:28px;height:6px;left:14px;top:29px;transform:rotate(24deg)}
+.brand h1{font-size:18px;line-height:1.05;margin:0;font-weight:900;letter-spacing:-.02em}.brand p{font-size:12px;line-height:1.3;color:#cbd5e1;margin:4px 0 0}.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);font-size:12px;color:#e6eefc}
+.progress-wrap{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:14px;margin:18px 0}.progress-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#d7def2;margin-bottom:8px}.progress-track{height:10px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden}.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--mint),var(--cyan),var(--amber));border-radius:999px;transition:.35s}.badge{margin-top:10px;font-size:12px;color:#f4f7ff}.nav{display:grid;gap:8px;margin-top:18px}.nav button{border:0;background:transparent;color:#d9e3f7;text-align:left;border-radius:16px;padding:12px 14px;cursor:pointer;display:flex;gap:10px;align-items:center}.nav button:hover,.nav button.active{background:rgba(255,255,255,.12);color:#fff}.nav b{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:10px;background:rgba(255,255,255,.12);font-size:12px}.side-note{margin-top:20px;padding:14px;border-radius:18px;background:rgba(77,210,138,.12);border:1px solid rgba(77,210,138,.28);color:#dfffe9;font-size:12px;line-height:1.45}
+.main{padding:28px;max-width:1280px}.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}.top-actions{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:10px 14px;background:var(--nav);color:#fff;cursor:pointer;box-shadow:0 10px 20px rgba(16,24,40,.12);font-weight:750}.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.small{font-size:13px;padding:8px 10px;border-radius:12px}.btn:hover{transform:translateY(-1px)}.page{display:none;animation:fade .25s ease}.page.active{display:block}@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,#131b38 0%,#283b86 56%,#00bdd6 100%);color:white;border-radius:32px;padding:34px;position:relative;overflow:hidden;box-shadow:var(--shadow);min-height:260px}.hero:before{content:"";position:absolute;width:360px;height:360px;border-radius:60px;background:rgba(255,255,255,.08);right:-110px;top:-130px;transform:rotate(25deg)}.hero:after{content:"";position:absolute;width:190px;height:190px;border-radius:40px;background:rgba(255,189,46,.22);right:140px;bottom:-90px;transform:rotate(-18deg)}.hero-inner{position:relative;z-index:2;max-width:820px}.kicker{font-size:13px;font-weight:850;text-transform:uppercase;letter-spacing:.14em;color:#a7f3d0;margin-bottom:12px}.hero h2{font-size:48px;line-height:.98;margin:0 0 12px;letter-spacing:-.05em}.hero p{font-size:18px;line-height:1.55;color:#edf5ff;margin:0 0 18px}.hero-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:24px}.hero-stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:14px}.hero-stat strong{display:block;font-size:24px}.hero-stat span{display:block;font-size:12px;color:#dbeafe;margin-top:2px}.grid{display:grid;gap:18px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:rgba(255,255,255,.86);backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 10px 28px rgba(16,24,40,.06)}.card.compact{padding:16px}.card h3{font-size:22px;line-height:1.15;margin:0 0 10px;letter-spacing:-.03em}.card h4{font-size:16px;margin:16px 0 8px}.card p,.card li{line-height:1.55;color:#334155}.muted{color:var(--muted);font-size:14px}.section-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-end;margin:26px 0 14px}.section-head h2{font-size:36px;line-height:1;margin:0;letter-spacing:-.045em}.section-head p{max-width:720px;margin:8px 0 0;color:var(--muted);line-height:1.5}.tag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:var(--soft-blue);color:#263eaa;margin:4px 6px 4px 0}.tag.mint{background:var(--soft-mint);color:#047857}.tag.coral{background:var(--soft-coral);color:#b33c20}.tag.amber{background:var(--soft-amber);color:#8a5a00}.tag.violet{background:#f3edff;color:#5b32d6}.checklist{display:grid;gap:10px;margin-top:12px}.check{display:flex;align-items:flex-start;gap:10px;padding:10px;border-radius:14px;background:#f8fafc;border:1px solid #eef2f7}.check input{margin-top:3px;transform:scale(1.15)}.info-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.mini{padding:14px;border-radius:18px;background:#f8fafc;border:1px solid #eef2f7}.mini b{display:block;font-size:13px;color:#0f172a}.mini span{font-size:12px;color:#64748b;line-height:1.35}.callout{border-radius:22px;padding:18px;background:linear-gradient(135deg,var(--soft-blue),#fff);border:1px solid #dfe6ff}.callout.mint{background:linear-gradient(135deg,var(--soft-mint),#fff);border-color:#c7f5d8}.callout.coral{background:linear-gradient(135deg,var(--soft-coral),#fff);border-color:#ffd8cc}.callout.amber{background:linear-gradient(135deg,var(--soft-amber),#fff);border-color:#ffe8ad}.callout.violet{background:linear-gradient(135deg,#f3edff,#fff);border-color:#ded0ff}.table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:white}.table th,.table td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}.table th{font-size:12px;text-transform:uppercase;letter-spacing:.08em;background:#f8fafc;color:#475569}.table tr:last-child td{border-bottom:0}.input,.textarea,select{width:100%;border:1px solid #d9e1ec;border-radius:14px;padding:11px 12px;background:white;color:var(--ink);outline:none}.textarea{min-height:105px;resize:vertical;line-height:1.5}.input:focus,.textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(54,87,255,.12)}.activity{border-radius:24px;border:1px solid #e4e7ec;background:#fff;padding:18px;margin-top:14px}.activity-title{display:flex;gap:10px;align-items:center;margin-bottom:12px}.activity-title b{display:grid;place-items:center;width:34px;height:34px;border-radius:12px;background:var(--soft-blue);color:var(--blue)}.activity-title h4{margin:0}.quiz-options{display:grid;gap:10px;margin-top:10px}.quiz-options label{display:flex;gap:10px;align-items:flex-start;padding:10px;border:1px solid #e5e7eb;border-radius:14px;cursor:pointer;background:#fbfdff}.feedback{margin-top:10px;padding:10px;border-radius:14px;font-size:14px;display:none}.feedback.ok{display:block;background:#ecfdf3;border:1px solid #c9f4dc;color:#066b3a}.feedback.no{display:block;background:#fff1ec;border:1px solid #ffd5c8;color:#9a351d}.word-count{font-size:13px;color:#64748b;margin-top:6px}.meter{height:12px;background:#eef2f7;border-radius:999px;overflow:hidden}.meter span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--coral),var(--amber),var(--mint));transition:.3s;border-radius:999px}.timer{display:grid;place-items:center;min-height:180px;border-radius:28px;background:radial-gradient(circle at 50% 0%,#eef2ff,#fff 68%);border:1px solid #dfe6ff}.timer-display{font-size:54px;font-weight:950;letter-spacing:-.04em}.timer-controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}.cue-card{border-radius:26px;background:linear-gradient(135deg,#172554,#3657ff);color:white;padding:22px;box-shadow:0 18px 34px rgba(54,87,255,.2)}.cue-card p,.cue-card li{color:#eef2ff}.cue-card h3{color:white}.source-box{font-size:12px;color:#64748b;line-height:1.45;border-top:1px solid var(--line);margin-top:20px;padding-top:14px}.mobile-menu{display:none}.print-only{display:none}.reference-list a{display:block;margin:6px 0}.sparkline{height:90px;border-radius:18px;background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--line);position:relative;overflow:hidden}.sparkline svg{width:100%;height:100%}.toast{position:fixed;right:24px;bottom:24px;background:#101828;color:#fff;padding:12px 16px;border-radius:14px;box-shadow:var(--shadow);opacity:0;transform:translateY(8px);pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1;transform:none}.divider{height:1px;background:var(--line);margin:18px 0}.mini-list{display:grid;gap:10px}.mini-list div{padding:12px;border-radius:16px;background:#f8fafc;border:1px solid #eef2f7}.two-col-text{columns:2;column-gap:30px}.question-bank button{margin:4px}.hidden{display:none!important}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:18px}.grid.two,.grid.three,.grid.four,.hero-grid,.info-strip{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.hero h2{font-size:38px}.mobile-menu{display:inline-flex}.nav.collapsed{display:none}.section-head{display:block}.two-col-text{columns:1}}
+@media print{
+  body{background:white;color:#111827}.app{display:block}.sidebar,.topbar,.btn,.timer-controls,.mobile-menu,.toast{display:none!important}.main{max-width:none;padding:0}.page{display:block!important;animation:none;break-after:page}.hero,.card,.callout,.activity,.cue-card{box-shadow:none!important;break-inside:avoid}.hero{background:#101828!important;color:white!important}.hero:before,.hero:after{display:none}.grid.two,.grid.three,.grid.four,.hero-grid,.info-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.textarea,.input{border:1px solid #cbd5e1;min-height:60px}.print-only{display:block}.no-print{display:none!important}a{color:#111827;text-decoration:none}.section-head h2{font-size:28px}.hero h2{font-size:36px}.card{background:white}.page{padding:18mm}.page:first-of-type{padding-top:12mm}@page{size:A4;margin:10mm}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div><h1>IELTS Launchpad</h1><p>Interactive study pack for ages 16-18</p></div>
+    </div>
+    <span class="pill">Independent learning resource</span>
+    <div class="progress-wrap">
+      <div class="progress-row"><span>Your completion</span><strong id="progressText">0%</strong></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="badge" id="badgeText">Starter: open a module and complete your first task.</div>
+    </div>
+    <nav class="nav" id="nav">
+      <button class="active" data-page="dashboard"><b>01</b> Dashboard</button>
+      <button data-page="listening"><b>02</b> Listening</button>
+      <button data-page="reading"><b>03</b> Reading</button>
+      <button data-page="writing"><b>04</b> Writing</button>
+      <button data-page="speaking"><b>05</b> Speaking</button>
+      <button data-page="exam"><b>06</b> Exam day</button>
+      <button data-page="planner"><b>07</b> Study planner</button>
+    </nav>
+    <div class="side-note"><strong>How to use it:</strong><br>Complete the cards, write into the boxes, tick tasks, use the timers, then export your progress. Your work is saved in this browser.</div>
+  </aside>
+  <main class="main">
+    <div class="topbar">
+      <button class="btn secondary mobile-menu" id="toggleNav">Menu</button>
+      <div><strong>Goal:</strong> build exam strategy, not just more notes. <span class="muted">Start with the dashboard, then work skill by skill.</span></div>
+      <div class="top-actions">
+        <button class="btn secondary" id="exportBtn">Download my work</button>
+        <button class="btn secondary" onclick="window.print()">Print or save PDF</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <section class="page active" id="dashboard">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="kicker">Study smarter for IELTS</div>
+          <h2>Turn four exam papers into one clear training plan.</h2>
+          <p>This e-learning pack helps 16-18 year olds prepare for Listening, Reading, Writing and Speaking through practical strategy, short drills, reflection and progress tracking.</p>
+          <div class="hero-grid">
+            <div class="hero-stat"><strong>4</strong><span>skills to train</span></div>
+            <div class="hero-stat"><strong>2h45</strong><span>main test time</span></div>
+            <div class="hero-stat"><strong>40</strong><span>Listening and Reading questions</span></div>
+            <div class="hero-stat"><strong>11-14</strong><span>Speaking minutes</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div><h2>Your launch dashboard</h2><p>Set a target, understand the format, and use the weekly sprint to keep study focused.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Band target calculator</h3>
+          <p class="muted">Enter your current or target band for each skill. This calculator rounds the average to the nearest half band for planning only.</p>
+          <div class="grid two">
+            <label>Listening <input class="input band-score" min="0" max="9" step="0.5" type="number" data-save="band_listening" placeholder="e.g. 6.5"></label>
+            <label>Reading <input class="input band-score" min="0" max="9" step="0.5" type="number" data-save="band_reading" placeholder="e.g. 6.5"></label>
+            <label>Writing <input class="input band-score" min="0" max="9" step="0.5" type="number" data-save="band_writing" placeholder="e.g. 6.0"></label>
+            <label>Speaking <input class="input band-score" min="0" max="9" step="0.5" type="number" data-save="band_speaking" placeholder="e.g. 7.0"></label>
+          </div>
+          <div class="callout mint" style="margin-top:14px"><strong>Estimated overall:</strong> <span id="overallBand">Add four scores</span></div>
+        </div>
+        <div class="card">
+          <h3>What the test looks like</h3>
+          <div class="info-strip">
+            <div class="mini"><b>Listening</b><span>4 recordings, 40 questions, about 30 minutes plus transfer time.</span></div>
+            <div class="mini"><b>Reading</b><span>3 passages, 40 questions, 60 minutes.</span></div>
+            <div class="mini"><b>Writing</b><span>2 tasks in 60 minutes: 20 minutes for Task 1, 40 for Task 2.</span></div>
+            <div class="mini"><b>Speaking</b><span>3 parts, 11-14 minutes with an examiner.</span></div>
+          </div>
+          <div class="divider"></div>
+          <label class="check"><input type="checkbox" class="task-check" data-save="dash_understood_format"> <span>I understand that Listening, Reading and Writing are usually completed together, while Speaking may be scheduled separately depending on the centre.</span></label>
+        </div>
+      </div>
+
+      <div class="grid three" style="margin-top:18px">
+        <div class="card compact"><h3>Learn</h3><p>Use each component page to understand question types, traps, scoring and time pressure.</p></div>
+        <div class="card compact"><h3>Drill</h3><p>Complete short activities, then record what went wrong and what you will change next time.</p></div>
+        <div class="card compact"><h3>Review</h3><p>Export your work weekly and compare your answers, notes and confidence levels.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3>7-day starter sprint</h3>
+        <p class="muted">One focused action per day. Keep it light, but complete every task.</p>
+        <div class="grid two checklist">
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day1"> <span><strong>Day 1:</strong> Learn the format and set your target band.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day2"> <span><strong>Day 2:</strong> Listening prediction and distractor drill.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day3"> <span><strong>Day 3:</strong> Reading skimming and keyword matching.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day4"> <span><strong>Day 4:</strong> Writing Task 2 planning under 8 minutes.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day5"> <span><strong>Day 5:</strong> Speaking Part 2 timer practice.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day6"> <span><strong>Day 6:</strong> Fix your top three repeated mistakes.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="sprint_day7"> <span><strong>Day 7:</strong> Review your notes and choose next week's focus.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="listening">
+      <div class="section-head">
+        <div><span class="tag mint">Component 1</span><h2>Listening: predict, follow, recover</h2><p>Listening tests whether you can understand main ideas, specific details, attitudes, purpose and the development of an argument.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>High-score listening routine</h3>
+          <div class="mini-list">
+            <div><strong>Before the audio:</strong> read the questions fast, predict the word type, topic and possible spelling difficulty.</div>
+            <div><strong>During the audio:</strong> follow the order, listen for corrections, and do not freeze after one missed answer.</div>
+            <div><strong>After the audio:</strong> check plural endings, numbers, capital letters and word limits.</div>
+          </div>
+          <div class="callout amber" style="margin-top:14px"><strong>Useful trick:</strong> for gap-fill questions, write N, V, Adj or Number next to the gap before listening. This narrows your attention.</div>
+        </div>
+        <div class="card">
+          <h3>The four recording styles</h3>
+          <table class="table">
+            <tr><th>Recording</th><th>What to expect</th><th>Study focus</th></tr>
+            <tr><td>1</td><td>Everyday conversation</td><td>Names, numbers, dates, forms</td></tr>
+            <tr><td>2</td><td>Everyday monologue</td><td>Facilities, maps, notices</td></tr>
+            <tr><td>3</td><td>Education or training discussion</td><td>Opinions, agreement, tasks</td></tr>
+            <tr><td>4</td><td>Academic lecture</td><td>Topic vocabulary and structure</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><b>L1</b><h4>Prediction drill: choose the word type</h4></div>
+        <p>Read each gap. Decide what kind of answer is likely before you hear anything.</p>
+        <div class="grid three">
+          <label>1. The meeting starts at _____.<select data-answer="time" class="check-select"><option value="">Choose</option><option value="person">person</option><option value="time">time</option><option value="adjective">adjective</option></select></label>
+          <label>2. Bring a _____ notebook.<select data-answer="adjective" class="check-select"><option value="">Choose</option><option value="adjective">adjective</option><option value="number">number</option><option value="place">place</option></select></label>
+          <label>3. The club meets in Room _____.<select data-answer="number" class="check-select"><option value="">Choose</option><option value="number">number</option><option value="opinion">opinion</option><option value="verb">verb</option></select></label>
+        </div>
+        <button class="btn small checkSelects" style="margin-top:12px">Check</button><div class="feedback"></div>
+      </div>
+
+      <div class="activity">
+        <div class="activity-title"><b>L2</b><h4>Distractor detective</h4></div>
+        <p><strong>Transcript line:</strong> "I first booked the workshop for Tuesday, but the school hall was full, so we moved it to Thursday."</p>
+        <div class="quiz" data-answer="Thursday">
+          <p>Final answer: the workshop is on...</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="listen_distractor" value="Tuesday"> Tuesday</label>
+            <label><input type="radio" name="listen_distractor" value="Thursday"> Thursday</label>
+            <label><input type="radio" name="listen_distractor" value="school hall"> school hall</label>
+          </div>
+          <button class="btn small quizCheck">Check answer</button><div class="feedback"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h3>My listening error log</h3>
+        <div class="grid two">
+          <label>What types of questions cost me marks?<textarea class="textarea" data-save="listening_error_types" placeholder="e.g. map labelling, spelling names, plural endings..."></textarea></label>
+          <label>My next listening rule<textarea class="textarea" data-save="listening_next_rule" placeholder="e.g. I will underline word limits before the audio starts..."></textarea></label>
+        </div>
+        <div class="checklist"><label class="check"><input type="checkbox" class="task-check" data-save="listening_completed"> <span>I completed the Listening module and wrote one rule for my next practice session.</span></label></div>
+      </div>
+    </section>
+
+    <section class="page" id="reading">
+      <div class="section-head">
+        <div><span class="tag violet">Component 2</span><h2>Reading: skim, scan, prove</h2><p>Reading rewards speed with control. Your aim is not to understand every word; it is to locate evidence and answer accurately.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>The reading method</h3>
+          <ol>
+            <li><strong>Skim:</strong> read title, first sentences and final sentences to understand the theme.</li>
+            <li><strong>Scan:</strong> search for names, dates, numbers and keywords.</li>
+            <li><strong>Match meaning:</strong> expect synonyms, not identical wording.</li>
+            <li><strong>Prove:</strong> do not answer from memory. Point to the line that supports it.</li>
+          </ol>
+          <div class="callout coral"><strong>Trap:</strong> most errors come from rushing, spelling, ignoring word limits or choosing an answer that sounds true but is not in the text.</div>
+        </div>
+        <div class="card">
+          <h3>Timing map for 60 minutes</h3>
+          <table class="table">
+            <tr><th>Passage</th><th>Target time</th><th>Advice</th></tr>
+            <tr><td>1</td><td>15-17 min</td><td>Build confidence; do not over-check.</td></tr>
+            <tr><td>2</td><td>18-20 min</td><td>Underline keywords and synonyms.</td></tr>
+            <tr><td>3</td><td>22-25 min</td><td>Stay calm with harder language.</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="activity">
+        <div class="activity-title"><b>R1</b><h4>Skim challenge</h4></div>
+        <p><strong>Text:</strong> A secondary school introduced a student-led repair club. Instead of replacing broken equipment, pupils learned how to fix chairs, bikes and small electronics. Teachers noticed that students became more confident at solving practical problems and more willing to ask for help when stuck.</p>
+        <div class="quiz" data-answer="A student repair club improved practical confidence.">
+          <p>Best main idea:</p>
+          <div class="quiz-options">
+            <label><input type="radio" name="read_main" value="The school bought new equipment."> The school bought new equipment.</label>
+            <label><input type="radio" name="read_main" value="A student repair club improved practical confidence."> A student repair club improved practical confidence.</label>
+            <label><input type="radio" name="read_main" value="Teachers stopped helping students."> Teachers stopped helping students.</label>
+          </div>
+          <button class="btn small quizCheck">Check answer</button><div class="feedback"></div>
+        </div>
+      </div>
+      <div class="activity">
+        <div class="activity-title"><b>R2</b><h4>True / False / Not Given</h4></div>
+        <p><strong>Text:</strong> The repair club met every Wednesday after school. It began with eight students and later attracted more members from different year groups. The school plans to create a guide so other clubs can copy the approach.</p>
+        <div class="grid three">
+          <label>1. The club met weekly.<select data-answer="True" class="check-select"><option value="">Choose</option><option>True</option><option>False</option><option>Not Given</option></select></label>
+          <label>2. The club started with twenty students.<select data-answer="False" class="check-select"><option value="">Choose</option><option>True</option><option>False</option><option>Not Given</option></select></label>
+          <label>3. The club charged a joining fee.<select data-answer="Not Given" class="check-select"><option value="">Choose</option><option>True</option><option>False</option><option>Not Given</option></select></label>
+        </div>
+        <button class="btn small checkSelects" style="margin-top:12px">Check</button><div class="feedback"></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>My reading strategy note</h3>
+        <label>Which reading question type do I need to practise most?<textarea class="textarea" data-save="reading_focus" placeholder="e.g. matching headings, True/False/Not Given, multiple choice..."></textarea></label>
+        <label class="check"><input type="checkbox" class="task-check" data-save="reading_completed"> <span>I completed the Reading module and identified one priority question type.</span></label>
+      </div>
+    </section>
+
+    <section class="page" id="writing">
+      <div class="section-head">
+        <div><span class="tag coral">Component 3</span><h2>Writing: plan, organise, control</h2><p>Writing is assessed through task response or achievement, coherence and cohesion, lexical resource, and grammatical range and accuracy.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Task 1: 20-minute control plan</h3>
+          <table class="table">
+            <tr><th>Minute</th><th>Action</th></tr>
+            <tr><td>0-3</td><td>Understand the task and identify the main features.</td></tr>
+            <tr><td>3-5</td><td>Write a short overview before details.</td></tr>
+            <tr><td>5-17</td><td>Write grouped details, not a list of every number.</td></tr>
+            <tr><td>17-20</td><td>Check tense, comparisons, spelling and clarity.</td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>Task 2: 40-minute control plan</h3>
+          <table class="table">
+            <tr><th>Minute</th><th>Action</th></tr>
+            <tr><td>0-8</td><td>Analyse the question, choose your position, plan two main ideas.</td></tr>
+            <tr><td>8-12</td><td>Write a direct introduction.</td></tr>
+            <tr><td>12-32</td><td>Write two developed body paragraphs.</td></tr>
+            <tr><td>32-36</td><td>Write a conclusion that clearly answers the task.</td></tr>
+            <tr><td>36-40</td><td>Edit grammar, articles, punctuation and repetition.</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="activity">
+        <div class="activity-title"><b>W1</b><h4>Task 2 planner</h4></div>
+        <p><strong>Prompt:</strong> Some people believe schools should teach financial skills to teenagers. Others think academic subjects should remain the priority. Discuss both views and give your opinion.</p>
+        <div class="grid two">
+          <label>My position<textarea class="textarea" data-save="writing_position" placeholder="Write one clear sentence with your opinion."></textarea></label>
+          <label>View 1: why financial skills matter<textarea class="textarea" data-save="writing_view1"></textarea></label>
+          <label>View 2: why academic subjects matter<textarea class="textarea" data-save="writing_view2"></textarea></label>
+          <label>My strongest example<textarea class="textarea" data-save="writing_example"></textarea></label>
+        </div>
+      </div>
+      <div class="activity">
+        <div class="activity-title"><b>W2</b><h4>Write a timed paragraph</h4></div>
+        <p>Write one body paragraph. Aim for a clear point, explanation, example and link back to the question.</p>
+        <textarea class="textarea count-words" data-save="writing_paragraph" placeholder="Start: One reason schools should teach financial skills is..."></textarea>
+        <div class="word-count">Words: <span>0</span></div>
+        <div class="meter"><span></span></div>
+      </div>
+      <div class="grid two" style="margin-top:18px">
+        <div class="card">
+          <h3>Band-aware checklist</h3>
+          <div class="checklist">
+            <label class="check"><input type="checkbox" class="task-check" data-save="writing_check_answered"> <span>I answered every part of the question.</span></label>
+            <label class="check"><input type="checkbox" class="task-check" data-save="writing_check_paragraphs"> <span>Each paragraph has one clear purpose.</span></label>
+            <label class="check"><input type="checkbox" class="task-check" data-save="writing_check_vocab"> <span>I used precise vocabulary, not memorised phrases.</span></label>
+            <label class="check"><input type="checkbox" class="task-check" data-save="writing_check_grammar"> <span>I checked sentence control, articles and punctuation.</span></label>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Sentence upgrade drill</h3>
+          <p>Weak: "Students need money lessons because it is important."</p>
+          <label>Rewrite with a clearer reason and more precise vocabulary<textarea class="textarea" data-save="writing_upgrade" placeholder="e.g. Financial education can help teenagers make safer decisions about budgeting, debt and long-term planning."></textarea></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="writing_completed"> <span>I completed the Writing module and edited one paragraph.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="speaking">
+      <div class="section-head">
+        <div><span class="tag amber">Component 4</span><h2>Speaking: extend, organise, sound natural</h2><p>Speaking is marked on fluency and coherence, lexical resource, grammatical range and accuracy, and pronunciation.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Speaking formula: PREP</h3>
+          <div class="mini-list">
+            <div><strong>Point:</strong> answer the question directly.</div>
+            <div><strong>Reason:</strong> explain why.</div>
+            <div><strong>Example:</strong> add a personal or realistic detail.</div>
+            <div><strong>Point back:</strong> connect back to the question.</div>
+          </div>
+          <div class="callout mint" style="margin-top:14px"><strong>Do not memorise speeches.</strong> Build flexible answer patterns and topic vocabulary instead.</div>
+        </div>
+        <div class="card">
+          <h3>Part 2 practice timer</h3>
+          <div class="timer"><div><div class="timer-display" id="timerDisplay">01:00</div><div class="muted" style="text-align:center">Choose prep or speaking time</div></div></div>
+          <div class="timer-controls">
+            <button class="btn small secondary" data-timer="60">1 min prep</button>
+            <button class="btn small secondary" data-timer="120">2 min talk</button>
+            <button class="btn small" id="startTimer">Start</button>
+            <button class="btn small secondary" id="pauseTimer">Pause</button>
+            <button class="btn small ghost" id="resetTimer">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="grid two" style="margin-top:18px">
+        <div class="cue-card">
+          <h3>Part 2 cue card generator</h3>
+          <p id="cueText">Describe a skill you learned outside school. You should say what the skill is, how you learned it, why it was useful, and how you felt about improving.</p>
+          <button class="btn secondary small" id="newCue">New cue card</button>
+        </div>
+        <div class="card question-bank">
+          <h3>Part 1 quick questions</h3>
+          <p class="muted">Pick one, answer naturally, then extend with PREP.</p>
+          <button class="btn small secondary qb">What subject do you enjoy most?</button>
+          <button class="btn small secondary qb">How do you usually relax after school?</button>
+          <button class="btn small secondary qb">Do you prefer studying alone or with friends?</button>
+          <button class="btn small secondary qb">What technology do you use most often?</button>
+          <div class="callout" id="questionDisplay" style="margin-top:12px">Choose a question above.</div>
+        </div>
+      </div>
+      <div class="activity">
+        <div class="activity-title"><b>S1</b><h4>Build an answer</h4></div>
+        <p><strong>Question:</strong> Do you think teenagers should do volunteer work?</p>
+        <div class="grid four">
+          <label>Point<textarea class="textarea" data-save="speak_point"></textarea></label>
+          <label>Reason<textarea class="textarea" data-save="speak_reason"></textarea></label>
+          <label>Example<textarea class="textarea" data-save="speak_example"></textarea></label>
+          <label>Point back<textarea class="textarea" data-save="speak_back"></textarea></label>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>Speaking self-check</h3>
+        <div class="grid two checklist">
+          <label class="check"><input type="checkbox" class="task-check" data-save="speak_check_fluency"> <span>I kept speaking without long silent pauses.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="speak_check_vocab"> <span>I used topic-specific vocabulary naturally.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="speak_check_grammar"> <span>I used a mix of simple and complex sentences.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="speak_check_pron"> <span>I spoke clearly, with natural stress and rhythm.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="speaking_completed"> <span>I completed the Speaking module and practised one timed answer.</span></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="exam">
+      <div class="section-head">
+        <div><span class="tag">Exam day</span><h2>Keep marks from slipping away</h2><p>Strong IELTS preparation includes strategy under pressure. This page focuses on common avoidable errors.</p></div>
+      </div>
+      <div class="grid three">
+        <div class="card"><h3>Listening traps</h3><ul><li>Writing the first answer before hearing the correction.</li><li>Ignoring singular and plural endings.</li><li>Missing the word limit.</li><li>Leaving answers blank after losing focus.</li></ul></div>
+        <div class="card"><h3>Reading traps</h3><ul><li>Reading every word slowly.</li><li>Using outside knowledge instead of text evidence.</li><li>Forgetting that synonyms are common.</li><li>Changing correct answers without a reason.</li></ul></div>
+        <div class="card"><h3>Writing traps</h3><ul><li>Not answering all parts of the question.</li><li>Overusing linking words mechanically.</li><li>Task 2 ideas that are listed but not developed.</li><li>Too little time for editing.</li></ul></div>
+      </div>
+      <div class="grid two" style="margin-top:18px">
+        <div class="card"><h3>Speaking traps</h3><ul><li>Memorised answers that do not fit the question.</li><li>Very short answers in Part 1.</li><li>Stopping too early in Part 2.</li><li>Using complex vocabulary incorrectly.</li></ul></div>
+        <div class="card"><h3>Final 48-hour checklist</h3><div class="checklist">
+          <label class="check"><input type="checkbox" class="task-check" data-save="exam_check_docs"> <span>I checked ID, location, time and test rules.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="exam_check_sleep"> <span>I protected sleep the night before.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="exam_check_timing"> <span>I reviewed the timing plan for each component.</span></label>
+          <label class="check"><input type="checkbox" class="task-check" data-save="exam_check_mistakes"> <span>I reviewed my top five repeated mistakes.</span></label>
+        </div></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>My pressure plan</h3>
+        <label>When I panic, I will...<textarea class="textarea" data-save="pressure_plan" placeholder="e.g. take one breath, move to the next question, return later if possible..."></textarea></label>
+      </div>
+    </section>
+
+    <section class="page" id="planner">
+      <div class="section-head">
+        <div><span class="tag mint">Planner</span><h2>Build your weekly routine</h2><p>Use this page to make IELTS preparation consistent without burning out.</p></div>
+      </div>
+      <div class="grid two">
+        <div class="card">
+          <h3>Weekly study menu</h3>
+          <table class="table">
+            <tr><th>Day</th><th>Task</th><th>Done</th></tr>
+            <tr><td>Mon</td><td>Listening drill + vocabulary notes</td><td><input type="checkbox" class="task-check" data-save="plan_mon"></td></tr>
+            <tr><td>Tue</td><td>Reading passage under timed conditions</td><td><input type="checkbox" class="task-check" data-save="plan_tue"></td></tr>
+            <tr><td>Wed</td><td>Writing Task 1 or letter</td><td><input type="checkbox" class="task-check" data-save="plan_wed"></td></tr>
+            <tr><td>Thu</td><td>Speaking Part 2 + recording review</td><td><input type="checkbox" class="task-check" data-save="plan_thu"></td></tr>
+            <tr><td>Fri</td><td>Writing Task 2 plan and paragraph</td><td><input type="checkbox" class="task-check" data-save="plan_fri"></td></tr>
+            <tr><td>Sat</td><td>Mixed practice and error log</td><td><input type="checkbox" class="task-check" data-save="plan_sat"></td></tr>
+            <tr><td>Sun</td><td>Light review and rest</td><td><input type="checkbox" class="task-check" data-save="plan_sun"></td></tr>
+          </table>
+        </div>
+        <div class="card">
+          <h3>My weekly reflection</h3>
+          <label>Biggest improvement this week<textarea class="textarea" data-save="weekly_win"></textarea></label>
+          <label>Most repeated mistake<textarea class="textarea" data-save="weekly_mistake"></textarea></label>
+          <label>Next week's focus<textarea class="textarea" data-save="weekly_focus"></textarea></label>
+          <div class="callout violet"><strong>Review rule:</strong> a mistake is useful only after you name it, fix it and test it again.</div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>Source links used to inform this pack</h3>
+        <p class="muted">This independent learning pack was developed using official IELTS format and assessment information, plus IELTS-up strategy pages as reference material. Always check official test providers for current test-day rules.</p>
+        <div class="reference-list">
+          <a href="https://takeielts.britishcouncil.org/take-ielts/test-format" target="_blank">British Council - IELTS test format</a>
+          <a href="https://takeielts.britishcouncil.org/teach-ielts/test-information/assessment" target="_blank">British Council - IELTS assessment guide</a>
+          <a href="https://ielts-up.com/listening/ielts-listening-tips.html" target="_blank">IELTS-up - Listening tips</a>
+          <a href="https://ielts-up.com/reading/ielts-reading-tips.html" target="_blank">IELTS-up - Reading tips</a>
+          <a href="https://ielts-up.com/exercises/ielts-writing-exercises.html" target="_blank">IELTS-up - Writing exercises</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast">Saved</div>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const toast = (msg)=>{ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1600); };
+  function saveEl(el){ const key=el.dataset.save; if(!key) return; if(el.type==='checkbox') localStorage.setItem(key, el.checked?'1':'0'); else localStorage.setItem(key, el.value); updateProgress(); updateBand(); updateWordCounts(); }
+  function loadEl(el){ const key=el.dataset.save; if(!key) return; const v=localStorage.getItem(key); if(v===null) return; if(el.type==='checkbox') el.checked = v==='1'; else el.value = v; }
+  $$('[data-save]').forEach(el=>{loadEl(el); el.addEventListener('input',()=>saveEl(el)); el.addEventListener('change',()=>saveEl(el));});
+  $$('#nav button').forEach(btn=>btn.addEventListener('click',()=>{ $$('#nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); $$('.page').forEach(p=>p.classList.remove('active')); $('#'+btn.dataset.page).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }));
+  $('#toggleNav')?.addEventListener('click',()=>$('#nav').classList.toggle('collapsed'));
+  function updateProgress(){ const checks=$$('.task-check'); const done=checks.filter(c=>c.checked).length; const pct=checks.length?Math.round(done/checks.length*100):0; $('#progressFill').style.width=pct+'%'; $('#progressText').textContent=pct+'%'; let badge='Starter: complete your first task.'; if(pct>=25) badge='Momentum: you have built a study rhythm.'; if(pct>=50) badge='Strategist: you are linking practice to exam skills.'; if(pct>=75) badge='Finisher: review mistakes and rehearse timing.'; if(pct===100) badge='Complete: export your work and plan the next cycle.'; $('#badgeText').textContent=badge; }
+  function updateBand(){ const vals=$$('.band-score').map(i=>parseFloat(i.value)).filter(v=>!isNaN(v)); if(vals.length<4){$('#overallBand').textContent='Add four scores'; return;} const avg=vals.reduce((a,b)=>a+b,0)/4; const rounded=Math.round(avg*2)/2; $('#overallBand').textContent=rounded.toFixed(1).replace('.0','')+' overall band estimate'; }
+  $$('.quizCheck').forEach(btn=>btn.addEventListener('click',()=>{ const q=btn.closest('.quiz'); const answer=q.dataset.answer; const chosen=q.querySelector('input[type=radio]:checked'); const fb=q.querySelector('.feedback'); if(!chosen){fb.className='feedback no';fb.textContent='Choose an answer first.';return;} if(chosen.value===answer){fb.className='feedback ok';fb.textContent='Correct. Notice how the evidence points to the final meaning, not the first option you hear or read.';} else {fb.className='feedback no';fb.textContent='Not quite. Correct answer: '+answer+'. Re-check the wording and look for correction or evidence.';} }));
+  $$('.checkSelects').forEach(btn=>btn.addEventListener('click',()=>{ const act=btn.closest('.activity'); const selects=Array.from(act.querySelectorAll('.check-select')); let correct=0; selects.forEach(s=>{ if(s.value===s.dataset.answer) correct++; }); const fb=act.querySelector('.feedback'); if(correct===selects.length){fb.className='feedback ok';fb.textContent='All correct. This is the kind of fast pre-thinking that saves time.';} else {fb.className='feedback no';fb.textContent='You got '+correct+' out of '+selects.length+'. Check the logic of each gap or statement.';} }));
+  function updateWordCounts(){ $$('.count-words').forEach(t=>{ const words=(t.value.trim().match(/\b[\w'-]+\b/g)||[]).length; const span=t.parentElement.querySelector('.word-count span') || t.nextElementSibling?.querySelector('span'); const meter=t.parentElement.querySelector('.meter span') || t.nextElementSibling?.nextElementSibling?.querySelector('span'); if(span) span.textContent=words; if(meter) meter.style.width=Math.min(100, words/120*100)+'%'; }); }
+  $$('.count-words').forEach(t=>t.addEventListener('input',updateWordCounts));
+  let timerLen=60, timerLeft=60, timerInt=null;
+  function showTimer(){ const m=String(Math.floor(timerLeft/60)).padStart(2,'0'); const s=String(timerLeft%60).padStart(2,'0'); $('#timerDisplay').textContent=m+':'+s; }
+  $$('[data-timer]').forEach(b=>b.addEventListener('click',()=>{ timerLen=timerLeft=parseInt(b.dataset.timer); clearInterval(timerInt); timerInt=null; showTimer(); }));
+  $('#startTimer')?.addEventListener('click',()=>{ if(timerInt) return; timerInt=setInterval(()=>{ timerLeft--; showTimer(); if(timerLeft<=0){ clearInterval(timerInt); timerInt=null; toast('Time is up. Record one improvement.'); } },1000); });
+  $('#pauseTimer')?.addEventListener('click',()=>{ clearInterval(timerInt); timerInt=null; });
+  $('#resetTimer')?.addEventListener('click',()=>{ clearInterval(timerInt); timerInt=null; timerLeft=timerLen; showTimer(); });
+  const cues=[
+    'Describe a skill you learned outside school. Say what it is, how you learned it, why it was useful, and how you felt about improving.',
+    'Describe a person your age who has achieved something interesting. Say who they are, what they achieved, why it mattered, and what you learned from them.',
+    'Describe an environmental project you would like to join. Say what the project is, who it helps, what you would do, and why it interests you.',
+    'Describe a time when you worked in a team. Say what the task was, what role you had, what was difficult, and what the result was.',
+    'Describe a useful app or website for studying. Say what it does, how you use it, what makes it helpful, and whether you would recommend it.'
+  ];
+  $('#newCue')?.addEventListener('click',()=>{ $('#cueText').textContent=cues[Math.floor(Math.random()*cues.length)]; });
+  $$('.qb').forEach(b=>b.addEventListener('click',()=>{$('#questionDisplay').textContent=b.textContent;}));
+  $('#exportBtn').addEventListener('click',()=>{ const data={exportedAt:new Date().toISOString(), answers:{}}; $$('[data-save]').forEach(el=>{ data.answers[el.dataset.save]=el.type==='checkbox'?el.checked:el.value; }); const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ielts_launchpad_my_work.json'; a.click(); URL.revokeObjectURL(a.href); toast('Work downloaded'); });
+  $('#resetBtn').addEventListener('click',()=>{ if(confirm('Reset all saved answers and ticks?')){ $$('[data-save]').forEach(el=>{localStorage.removeItem(el.dataset.save); if(el.type==='checkbox') el.checked=false; else el.value='';}); updateProgress(); updateBand(); updateWordCounts(); toast('Reset complete'); } });
+  updateProgress(); updateBand(); updateWordCounts(); showTimer();
+})();
+</script>
+</body>
+</html>
